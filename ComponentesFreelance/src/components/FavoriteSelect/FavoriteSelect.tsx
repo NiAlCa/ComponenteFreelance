@@ -1,6 +1,6 @@
 
 import { LastSongData, NFT } from '../../data/LastSongData.mock';
-import "./FavoriteSelect.scss"
+import styles from  "./FavoriteSelect.module.scss"
 
 interface FavoriteSelectProps {
   selectedFavorites: NFT[];
@@ -26,9 +26,9 @@ export const FavoriteSelect: React.FC<FavoriteSelectProps> = ({
   };
 
   return (
-    <div>
+    <div className={styles.contenetor}>
       {LastSongData.map((nft: NFT) => (
-        <div key={nft.assetId}>
+        <div key={nft.assetId} className={styles.contenetor}>
           <img src={nft.image} alt={nft.name} />
           <button onClick={() => toggleFavorite(nft.assetId)}>
             {selectedFavorites.some((selectedNft) => selectedNft.assetId === nft.assetId)
