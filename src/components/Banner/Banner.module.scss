@@ -1,0 +1,25 @@
+.bannerContainer {
+  // Estilos para el contenedor principal del banner
+}
+
+.banner {
+  margin: auto;
+  grid-gap: 10px;
+}
+
+.favoriteItem {
+  // Estilos para el contenedor de la imagen, si se necesitan
+}
+
+.favoriteImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.downloadButton {
+  margin-top: 20px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+}

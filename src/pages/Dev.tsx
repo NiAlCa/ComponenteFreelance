@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import {  NFT } from '../data/LastSongData.mock';
-import { Banner } from '../components/Banner/Banner';
+
 import { FavoriteSelect } from '../components/FavoriteSelect/FavoriteSelect';
+import Banner from '../components/Banner/Banner';
 
 function Dev() {
   const [selectedFavorites, setSelectedFavorites] = useState<NFT[]>([]);
