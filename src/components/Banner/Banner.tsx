@@ -45,19 +45,19 @@ const Banner: React.FC<BannerProps> = ({ selectedFavorites }) => {
   const getGridTemplateColumns = () => {
     switch (selectedFavorites.length) {
       case 1:
-        return '1fr';
+        return 'repeat(1, 1fr)';
       case 2:
         return 'repeat(2, 1fr)';
       case 3:
         return 'repeat(3, 1fr)';
       case 4:
-        return 'repeat(4, 1fr)'; 
+        return 'repeat(3, 2fr)'; 
       case 5:
-        return 'repeat(5, 1fr)';
+        return 'repeat(3, 2fr)';
       case 6:
-        return 'repeat(6, 1fr)'; 
+        return 'repeat(3, 2fr)'; 
       default:
-        return 'repeat(3, 1fr)'; 
+        return 'repeat(6, 1fr)'; 
     }
   };
 
@@ -65,9 +65,8 @@ const Banner: React.FC<BannerProps> = ({ selectedFavorites }) => {
     <div className={styles.bannerContainer}>
       <div id="banner" className={styles.banner} style={{ 
         gridTemplateColumns: getGridTemplateColumns(), 
-        gridAutoRows: 'auto',
         display: 'grid',
-        gridGap: '10px'
+        gridGap: '0px'
       }}>
         {selectedFavorites.map((nft) => (
           <div key={nft.assetId} className={styles.favoriteItem}>
