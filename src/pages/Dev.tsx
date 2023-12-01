@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import {  NFT } from '../data/LastSongData.mock';
-
-import { FavoriteSelect } from '../components/FavoriteSelect/FavoriteSelect';
-import Banner from '../components/Banner/Banner';
-import { GifCreator } from '../components/GifCreator/GifCreator';
+import { useState } from "react";
+import { NFT } from "../data/LastSongData.mock";
+import { FavoriteSelect } from "../components/FavoriteSelect/FavoriteSelect";
+import { GifCreator } from "../components/GifCreator/GifCreator";
+import Banner from "../components/Banner/Banner";
 
 function Dev() {
   const [selectedFavorites, setSelectedFavorites] = useState<NFT[]>([]);
@@ -15,7 +14,6 @@ function Dev() {
         setSelectedFavorites={setSelectedFavorites}
       />
       <Banner selectedFavorites={selectedFavorites} />
-
       <GifCreator
       selectedFavorites={selectedFavorites}
       />
