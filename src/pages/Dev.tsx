@@ -3,6 +3,7 @@ import {  NFT } from '../data/LastSongData.mock';
 
 import { FavoriteSelect } from '../components/FavoriteSelect/FavoriteSelect';
 import Banner from '../components/Banner/Banner';
+import { GifCreator } from '../components/GifCreator/GifCreator';
 
 function Dev() {
   const [selectedFavorites, setSelectedFavorites] = useState<NFT[]>([]);
@@ -14,6 +15,10 @@ function Dev() {
         setSelectedFavorites={setSelectedFavorites}
       />
       <Banner selectedFavorites={selectedFavorites} />
+
+      <GifCreator
+      selectedFavorites={selectedFavorites}
+      />
     </div>
   );
 }
