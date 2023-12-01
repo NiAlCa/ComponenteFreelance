@@ -1,57 +1,64 @@
-import styles from "./Banner.module.scss"
+import React, { useRef } from 'react';
 
 interface NFT {
-  name: string;
-  description: string;
-  image: string;
   assetId: string;
-  collection: string;
-  external_url: string;
+  name: string;
+  image: string;
 }
 
+interface BannerProps {
+  selectedFavorites: NFT[];
+}
 
-const nftImageUrls = [
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/8a4c280e08210a380ad4c4dc1a6ade3b0d41e494dd27e5b659b3e9a91051a858.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/invisible.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/captain.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/c74717a8e6603ce582ef6337e7d623cc956e0241ad48f52e076367d1276e18ff.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/d5aafe2cbe44487556bdb09bf1046baaeb46c9303dc8f88b30bc3d0b0364a29e.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/0c40b6a9906a151101b624b4887321e014bd4f3a7f065b76103912497572beb0.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/d8c44afb5278ddfcacf4be8c136c719f08b98558e52dae8feb6c5a625d4272b1.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/df87c3472112f486235e9c437f8cf8b63a06b9a6ef6c6817d284661fc3dbe390.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/467fe270fc740acb34e01de6ebbd35b9ceb15c10b187e055225d9d9ed2fc20a6.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/ae1ef7012dfdb0882f2077ed5f6362cc123abe0ea334d8e42cd2cdb75972b2d7.png",
-  "bafybeiacu2aagvvta6gugcpso4du6veyhbr5sqit44fi66o3qyff6dxhdq/3e96261b47472258a96fe45f5f3bbabc7ebfbca79ea55437e65971a224659a67.png",
-];
+export const Banner: React.FC<BannerProps> = ({ selectedFavorites }) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-const Banner: React.FC = () => {
+  const downloadBanner = () => {
+    if (canvasRef.current) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
 
-  const favoriteNFTs: NFT[] = nftImageUrls.map((url, index) => ({
-    name: `Rusty Robot #${index.toString().padStart(5, '0')}`,
-    description: "A collection of 11,111 unique Rusty Robot NFT art pieces on the IOTA network.",
-    image: `https://rrcc.mypinata.cloud/ipfs/${url}`,
-    assetId: "rusty",
-    collection: "Rusty Robot Country Club",
-    external_url: "https://rustyrobot.io/collections/RRCC/0"
-  }));
+      if (ctx) {
+        const bannerWidth = selectedFavorites.length * 200;
+        const bannerHeight = 200;
+        canvas.width = bannerWidth;
+        canvas.height = bannerHeight;
 
-  const renderNFTs = () => {
-    return favoriteNFTs.slice(0, 10).map((nft, index) => (
-      <div key={index} className={styles.nftCard}>
-        <img src={nft.image} alt={nft.name} />
-        <div className={styles.nftInfo}>
-          <h5>{nft.name}</h5>
-          <p>{nft.description}</p>
-        </div>
-      </div>
-    ));
+        ctx.clearRect(0, 0, bannerWidth, bannerHeight);
+
+        let x = 0;
+        for (const nft of selectedFavorites) {
+          const img = new Image();
+          img.src = nft.image;
+          img.onload = () => {
+            ctx.drawImage(img, x, 0, 200, 200);
+            x += 200;
+          };
+        }
+
+        const dataURL = canvas.toDataURL('image/png');
+
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'favorite_banner.png';
+        link.click();
+      }
+    }
   };
 
   return (
-    <div className={styles.favoritesContainer}>
-      {renderNFTs()}
+    <div>
+      <h2>Your Favorite NFTs</h2>
+      <div className="favorites-grid">
+        {selectedFavorites.map((nft) => (
+          <div key={nft.assetId} className="favorite-item">
+            <img src={nft.image} alt={nft.name} />
+            <p>{nft.name}</p>
+          </div>
+        ))}
+      </div>
+      <button onClick={downloadBanner}>Download Banner</button>
+      <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
     </div>
   );
 };
-
-export default Banner;
